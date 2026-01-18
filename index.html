@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raihan Computer</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:'Inter',sans-serif;
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    overflow-x:hidden;
+}
+
+/* KUNCI SCROLL SAAT LOGIN - Pastikan body terkunci sampai login berhasil */
+body.locked{
+    overflow:hidden;
+    height:100vh;
+}
+
+.hidden{display:none}
+
+/* LOGIN */
+#login{
+    position:fixed;
+    inset:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+    background: url('https://source.unsplash.com/random/1920x1080/?technology') no-repeat center center/cover;
+    background-attachment: fixed;
+    animation: fadeIn 1s ease-in-out;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+.login-box{
+    background:rgba(255,255,255,.15);
+    backdrop-filter:blur(20px);
+    padding:40px;
+    width:380px;
+    border-radius:20px;
+    box-shadow:0 25px 50px rgba(0,0,0,.3);
+    color:white;
+    border: 1px solid rgba(255,255,255,.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position:relative;
+}
+.login-box::before{
+    content:'';
+    position:absolute;
+    top:-5px;
+    left:-5px;
+    right:-5px;
+    bottom:-5px;
+    background:linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+    border-radius:25px;
+    z-index:-1;
+    animation: borderGlow 3s ease-in-out infinite alternate;
+}
+@keyframes borderGlow {
+    0% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+.login-box:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 35px 70px rgba(0,0,0,.4);
+}
+.login-box h2{
+    text-align:center;
+    margin-bottom:30px;
+    font-size: 28px;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0,0,0,.3);
+}
+.login-box h2 i{
+    color:#ffd700;
+    margin-right:10px;
+}
+.login-box input{
+    width:100%;
+    padding:15px;
+    margin-top:15px;
+    border-radius:12px;
+    border:none;
+    background: rgba(255,255,255,.2);
+    color: white;
+    font-size: 16px;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+.login-box input::placeholder {
+    color: rgba(255,255,255,.8);
+}
+.login-box input:focus {
+    background: rgba(255,255,255,.3);
+    outline: none;
+    box-shadow: 0 0 10px rgba(255,255,255,.5);
+}
+.login-box button{
+    width:100%;
+    margin-top:20px;
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(135deg,#22c55e,#16a34a);
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    font-size:16px;
+}
+.login-box button:hover {
+    background: linear-gradient(135deg,#16a34a,#15803d);
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(34,197,94,.4);
+}
+.login-box .switch-btn{
+    background:linear-gradient(135deg,#f59e0b,#d97706);
+    margin-top:15px;
+}
+.login-box .switch-btn:hover {
+    background: linear-gradient(135deg,#d97706,#b45309);
+    box-shadow: 0 5px 15px rgba(245,158,11,.4);
+}
+.error{
+    margin-top:15px;
+    color:#ffcccc;
+    text-align:center;
+    font-size:14px;
+    background: rgba(255,0,0,.2);
+    padding:10px;
+    border-radius:8px;
+}
+
+/* APP - Pastikan tersembunyi sampai login berhasil */
+#app{
+    display:none; /* Diubah dari hidden class ke display:none untuk lebih ketat */
+    background:#f1f5f9;
+    min-height:100vh;
+    animation: slideIn 0.5s ease-in-out;
+}
+@keyframes slideIn {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+}
+
+/* SIDEBAR */
+.sidebar{
+    width:260px;
+    background:linear-gradient(180deg,#0f172a,#1e293b);
+    color:white;
+    padding:30px;
+    box-shadow: 2px 0 15px rgba(0,0,0,.2);
+    position:relative;
+}
+.sidebar::after{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background: url('https://source.unsplash.com/random/300x600/?dark') no-repeat center center/cover;
+    opacity:0.1;
+    z-index:-1;
+}
+.sidebar .logo {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 32px;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0,0,0,.5);
+}
+.sidebar .logo i {
+    color: #ffd700;
+    margin-right: 10px;
+}
+.sidebar h3{
+    text-align:center;
+    margin-bottom:30px;
+    font-size:18px;
+    color:#cbd5e1;
+}
+.sidebar button{
+    width:100%;
+    padding:16px;
+    margin-bottom:12px;
+    border:none;
+    border-radius:12px;
+    background:transparent;
+    color:white;
+    text-align:left;
+    cursor:pointer;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    font-size:16px;
+    position:relative;
+}
+.sidebar button i{
+    margin-right:10px;
+}
+.sidebar button:hover,.sidebar .active{
+    background:linear-gradient(135deg,#1e293b,#334155);
+    transform: translateX(10px);
+    box-shadow: 0 5px 15px rgba(0,0,0,.3);
+}
+.sidebar button:hover::before{
+    content:'';
+    position:absolute;
+    left:0;
+    top:50%;
+    transform:translateY(-50%);
+    width:5px;
+    height:60%;
+    background:#ffd700;
+    border-radius:0 5px 5px 0;
+}
+
+/* CONTENT */
+.content{
+    flex:1;
+    padding:30px;
+    background:linear-gradient(135deg,#f8fafc,#e2e8f0);
+}
+
+/* CARD */
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+}
+.card{
+    background:linear-gradient(135deg,white,#f1f5f9);
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 15px 35px rgba(0,0,0,.1);
+    text-align:center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: cardFadeIn 0.5s ease-in-out;
+    position:relative;
+    overflow:hidden;
+}
+.card::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background:linear-gradient(45deg, rgba(102,126,234,.1), rgba(118,75,162,.1));
+    opacity:0;
+    transition:opacity 0.3s ease;
+}
+.card:hover::before{
+    opacity:1;
+}
+@keyframes cardFadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 25px 50px rgba(0,0,0,.2);
+}
+.card i{
+    font-size:40px;
+    color:#667eea;
+    margin-bottom:15px;
+    text-shadow: 0 2px 4px rgba(0,0,0,.2);
+}
+.card h3{
+    font-size:28px;
+    margin:10px 0;
+    color:#1e293b;
+}
+
+/* PRODUCT */
+.products{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+}
+.product{
+    background:linear-gradient(135deg,white,#f8fafc);
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 15px 35px rgba(0,0,0,.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.product:hover {
+    transform: scale(1.05);
+    box-shadow: 0 20px 40px rgba(0,0,0,.2);
+}
+.product img{
+    width:100%;
+    height:180px;
+    object-fit:cover;
+}
+.product div{
+    padding:20px;
+}
+.product .delete-btn {
+    background: linear-gradient(135deg,#dc2626,#b91c1c);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background 0.3s ease, transform 0.2s ease;
+    font-size:14px;
+}
+.product .delete-btn:hover {
+    background: linear-gradient(135deg,#b91c1c,#991b1b);
+    transform: scale(1.05);
+}
+
+/* TABLE */
+table{
+    width:100%;
+    background:linear-gradient(135deg,white,#f8fafc);
+    border-collapse:collapse;
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:0 15px 35px rgba(0,0,0,.1);
+}
+th,td{
+    padding:16px;
+    text-align:left;
+}
+th{
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    color:white;
+    font-weight:600;
+}
+tr:hover{
+    background:rgba(102,126,234,.1);
+}
+
+/* MODAL */
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.6);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    animation: modalFade 0.3s ease;
+}
+@keyframes modalFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+.modal-content{
+    background:linear-gradient(135deg,white,#f1f5f9);
+    padding:30px;
+    width:350px;
+    border-radius:20px;
+    box-shadow:0 20px 40px rgba(0,0,0,.3);
+    animation: modalSlide 0.3s ease;
+}
+@keyframes modalSlide {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+.modal-content input{
+    width:100%;
+    padding:12px;
+    margin-top:12px;
+    border-radius:10px;
+    border:1px solid #cbd5e1;
+    font-size:16px;
+}
+.modal-content button{
+    width:100%;
+    margin-top:15px;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:linear-gradient(135deg,#22c55e,#16a34a);
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    transition: background 0.3s ease;
+}
+.modal-content button:hover{
+    background: linear-gradient(135deg,#16a34a,#15803d);
+}
+.modal-content button:last-child{
+    background:linear-gradient(135deg,#6b7280,#4b5563);
+}
+.modal-content button:last-child:hover{
+    background:linear-gradient(135deg,#4b5563,#374151);
+}
+
+/* RESPONSIVE */
+@media (max-width:768px){
+    .sidebar{
+        width:100%;
+        height:auto;
+        padding:20px;
+    }
+    .content{
+        padding:20px;
+    }
+    .cards{
+        grid-template-columns:1fr;
+    }
+    .products{
+        grid-template-columns:1fr;
+    }
+    .login-box{
+        width:90%;
+        padding:30px;
+    }
+}
+</style>
+</head>
+
+<body class="locked"> <!-- Body terkunci sampai login -->
+
+<!-- LOGIN -->
+<div id="login">
+    <form class="login-box" id="loginForm" onsubmit="login(event)">
+        <h2><i class="fa fa-laptop"></i> Raihan Computer</h2>
+        <input id="email" type="email" placeholder="Email" required>
+        <input id="password" type="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+        <button type="button" class="switch-btn" onclick="showRegister()">Daftar Akun Baru</button>
+        <div class="error" id="loginError"></div>
+    </form>
+    <form class="login-box hidden" id="registerForm" onsubmit="register(event)">
+        <h2><i class="fa fa-user-plus"></i> Daftar Akun</h2>
+        <input id="regEmail" type="email" placeholder="Email" required>
+        <input id="regPassword" type="password" placeholder="Password (min 6 karakter)" required>
+        <button type="submit">Daftar</button>
+        <button type="button" class="switch-btn" onclick="showLogin()">Kembali ke Login</button>
+        <div class="error" id="registerError"></div>
+    </form>
+</div>
+
+<!-- APP - Tersembunyi sampai login -->
+<div id="app" class="hidden"> <!-- Tambah class hidden untuk backup -->
+
+<div class="sidebar">
+    <div class="logo"><i class="fa fa-laptop"></i> Raihan Computer</div>
+    <h3>Raihan Admin</h3>
+    <button class="active" onclick="showPage('dashboard')"><i class="fa fa-tachometer-alt"></i>Dashboard</button>
+    <button onclick="showPage('produk')"><i class="fa fa-box"></i>Produk</button>
+    <button onclick="showPage('stok')"><i class="fa fa-cubes"></i>Stok</button>
+    <button onclick="showPage('laporan')"><i class="fa fa-chart-line"></i>Laporan</button>
+    <button onclick="logout()"><i class="fa fa-sign-out-alt"></i>Logout</button>
+</div>
+
+<div class="content">
+
+<div id="dashboard">
+    <h1>Dashboard</h1>
+    <div class="cards">
+        <div class="card"><i class="fa fa-box"></i><h3 id="cProduk">0</h3>Produk</div>
+        <div class="card"><i class="fa fa-cubes"></i><h3 id="cStok">0</h3>Stok</div>
+        <div class="card"><i class="fa fa-money-bill"></i><h3 id="cPendapatan">Rp 0</h3>Pendapatan</div>
+    </div>
+</div>
+
+<div id="produk" class="hidden">
+    <h1>Produk</h1>
+    <button onclick="openModal()" style="padding:12px 20px; background:linear-gradient(135deg,#22c55e,#16a34a); color:white; border:none; border-radius:10px; cursor:pointer; font-size:16px; margin-bottom:20px;">+ Tambah Produk</button>
+    <div class="products" id="productList"></div>
+</div>
+
+<div id="stok" class="hidden">
+    <h1>Stok</h1>
+    <table>
+        <thead><tr><th>Nama</th><th>Stok</th><th>Aksi</th></tr></thead>
+        <tbody id="stokTable"></tbody>
+    </table>
+</div>
+
+<div id="laporan" class="hidden">
+    <h1>Laporan</h1>
+    <p>Total Produk: <b id="laporanTotal">0</b></p>
+</div>
+
+</div>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+<div class="modal-content">
+    <h3>Tambah Produk</h3>
+    <input id="pNama" placeholder="Nama">
+    <input id="pHarga" type="number" placeholder="Harga">
+    <input id="pStok" type="number" placeholder="Stok">
+    <input id="pImg" placeholder="URL Gambar">
+    <button onclick="saveProduct()">Simpan</button>
+    <button onclick="closeModal()">Batal</button>
+</div>
+</div>
+
+<script>
+// =====================
+// DATA AWAL
+// =====================
+let users = JSON.parse(localStorage.getItem("users")) || [
+    { email: "admin@raihan.com", password: "123456" }
+];
+let products = JSON.parse(localStorage.getItem("products")) || [];
+
+// =====================
+// AUTO LOGIN CHECK
+// =====================
+window.onload = function () {
+    const loggedIn = localStorage.getItem("loggedIn");
+    if (loggedIn) {
+        enterApp();
+    }
+};
+
+// =====================
+// LOGIN
+// =====================
+function login(e) {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    const user = users.find(u => u.email === email && u.password === password);
+
+    if (user) {
+        localStorage.setItem("loggedIn", email);
+        enterApp();
+    } else {
+        document.getElementById("loginError").innerText =
+            "Email atau password salah!";
+    }
+}
+
+// =====================
+// REGISTER
+// =====================
+function register(e) {
+    e.preventDefault();
+
+    const email = document.getElementById("regEmail").value;
+    const password = document.getElementById("regPassword").value;
+
+    if (password.length < 6) {
+        document.getElementById("registerError").innerText =
+            "Password minimal 6 karakter";
+        return;
+    }
+
+    const exists = users.some(u => u.email === email);
+    if (exists) {
+        document.getElementById("registerError").innerText =
+            "Email sudah terdaftar";
+        return;
+    }
+
+    users.push({ email, password });
+    localStorage.setItem("users", JSON.stringify(users));
+
+    alert("Registrasi berhasil, silakan login!");
+    showLogin();
+}
+
+// =====================
+// MASUK KE APP
+// =====================
+function enterApp() {
+    const login = document.getElementById("login");
+    const app = document.getElementById("app");
+
+    if (login) login.remove();
+    app.style.display = "flex";
+    app.classList.remove("hidden");
+
+    document.body.classList.remove("locked");
+
+    renderAll();
+}
+
+// =====================
+// LOGOUT
+// =====================
+function logout() {
+    localStorage.removeItem("loggedIn");
+    location.reload();
+}
+
+// =====================
+// SWITCH FORM
+// =====================
+function showRegister() {
+    document.getElementById("loginForm").classList.add("hidden");
+    document.getElementById("registerForm").classList.remove("hidden");
+}
+
+function showLogin() {
+    document.getElementById("registerForm").classList.add("hidden");
+    document.getElementById("loginForm").classList.remove("hidden");
+}
+
+// =====================
+// NAVIGASI PAGE
+// =====================
+function showPage(page) {
+    ["dashboard", "produk", "stok", "laporan"].forEach(id => {
+        document.getElementById(id).classList.add("hidden");
+    });
+
+    document.getElementById(page).classList.remove("hidden");
+
+    document.querySelectorAll(".sidebar button").forEach(btn => {
+        btn.classList.remove("active");
+    });
+}
+
+// =====================
+// MODAL
+// =====================
+function openModal() {
+    document.getElementById("modal").style.display = "flex";
+}
+
+function closeModal() {
+    document.getElementById("modal").style.display = "none";
+}
+
+// =====================
+// TAMBAH PRODUK
+// =====================
+function saveProduct() {
+    const nama = document.getElementById("pNama").value;
+    const harga = document.getElementById("pHarga").value;
+    const stok = document.getElementById("pStok").value;
+    const img = document.getElementById("pImg").value || "https://picsum.photos/400";
+
+    if (!nama || !harga || !stok) {
+        alert("Lengkapi data produk!");
+        return;
+    }
+
+    products.push({
+        name: nama,
+        price: Number(harga),
+        stock: Number(stok),
+        img
+    });
+
+    localStorage.setItem("products", JSON.stringify(products));
+    closeModal();
+    renderAll();
+}
+
+// =====================
+// HAPUS PRODUK
+// =====================
+function deleteProduct(index) {
+    if (confirm("Hapus produk ini?")) {
+        products.splice(index, 1);
+        localStorage.setItem("products", JSON.stringify(products));
+        renderAll();
+    }
+}
+
+// =====================
+// RENDER SEMUA DATA
+// =====================
+function renderAll() {
+    // Dashboard
+    document.getElementById("cProduk").innerText = products.length;
+    document.getElementById("cStok").innerText =
+        products.reduce((a, b) => a + b.stock, 0);
+    document.getElementById("cPendapatan").innerText =
+        "Rp " + products.reduce((a, b) => a + (b.price * b.stock), 0).toLocaleString();
+
+    // Produk
+    const productList = document.getElementById("productList");
+    productList.innerHTML = "";
+
+    products.forEach((p, i) => {
+        productList.innerHTML += `
+        <div class="product">
+            <img src="${p.img}">
+            <div>
+                <b>${p.name}</b>
+                <p>Rp ${p.price.toLocaleString()}</p>
+                <p>Stok: ${p.stock}</p>
+                <button class="delete-btn" onclick="deleteProduct(${i})">
+                    Hapus
+                </button>
+            </div>
+        </div>`;
+    });
+
+    // Stok
+    const stokTable = document.getElementById("stokTable");
+    stokTable.innerHTML = "";
+
+    products.forEach((p, i) => {
+        stokTable.innerHTML += `
+        <tr>
+            <td>${p.name}</td>
+            <td>${p.stock}</td>
+            <td>
+                <button onclick="products[${i}].stock++;saveStock()">
+                    +1
+                </button>
+            </td>
+        </tr>`;
+    });
+
+    // Laporan
+    document.getElementById("laporanTotal").innerText = products.length;
+}
+
+function saveStock() {
+    localStorage.setItem("products", JSON.stringify(products));
+    renderAll();
+}
+</script>
